@@ -10,7 +10,7 @@ define("DB_NAME", "infoshow");
 
 $database = new Database();
 $random =5;
-$database->query("SELECT Exhibit_Title, Exhibit_AltTitle, Exhibit_Date, Artist_FName, Artist_LName, exhibit.Exhibit_ID, Asset_Path FROM exhibit, asset, artist WHERE exhibit.Exhibit_ID = 1 AND exhibit.Exhibit_Artist = artist.Artist_ID");
+$database->query("SELECT Exhibit_Title, Exhibit_AltTitle, Exhibit_Date, Artist_FName, Artist_LName, exhibit.Exhibit_ID  FROM exhibit, asset, artist WHERE exhibit.Exhibit_ID = 8 AND exhibit.Exhibit_Artist = artist.Artist_ID");
 $exhibits = $database->resultSet();
 
 //Prep Data
@@ -32,9 +32,10 @@ $bioText = file_get_contents("http://en.wikipedia.org/w/api.php?action=query&pro
 $bioTextOut =json_decode($bioText);
 $bioArray = json_decode(json_encode($bioTextOut), true);
 
-// Get Picture from google
-
-
+// Get Image from google
+$imagePath= file_get_contents("http://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=".$exhibit."&userip=0.0.0.0");
+$imageTextOut =json_decode($imagePath);
+$imageArray = json_decode(json_encode($imageTextOut), true);
 
 function array_value_recursive($key, array $arr){
     $val = array();
@@ -46,23 +47,14 @@ function array_value_recursive($key, array $arr){
 
 $blurb = (array_value_recursive("extract", $blurbArray));
 $bio = (array_value_recursive("extract", $bioArray));
+$imageURL = (array_value_recursive("url", $imageArray)[1]);
 
-//Get Number of Exhibits
-/*$database->query('SELECT * from exhibit');
-$rows = $database->resultSet();
-$exhibitCount = $database->rowCount();*/
-/*$random = rand( 1 , 16 );*/
 $exhibits[0]["name"]=$fullName;
 $exhibits[0]["blurb"]=$blurb;
 $exhibits[0]["bio"]=$bio;
-$exhibits[0]["alt"]=$exhibits[0]["Exhibit_AltTitle"];
+$exhibits[0]["image"] =$imageURL;
 $exhibits[0]["date"] =$date;
-/*$exhibits["blurb"]=$blurb;*/
-/*array_push($exhibits,$blurb);*/
-/*$database->query("SELECT Asset_Path, FROM asset WHERE Exhibit_ID = 5");
-$picPath = $database->resultSet();*/
 
-/*$result = array_merge($exhibits,$picPath);*/
 
 if(is_array($exhibits)){
  $outp = json_encode($exhibits,true);
