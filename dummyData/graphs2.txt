@@ -1,0 +1,43 @@
+{
+  "type": "PieChart",
+  "data": [
+    [
+      "Exhibit",
+      "Visits"
+    ],
+    [
+      "flaps",
+      10000
+    ],
+    [
+      "balls",
+      10000
+    ],
+    [
+      "Tourists",
+      10000
+    ]
+  ],
+  "options": {
+    "title": "Visitor Breakdown",
+    "displayExactValues": true,
+    "width": 360,
+    "height": 200,
+    "is3D": true,
+    "chartArea": {
+      "left": 10,
+      "top": 10,
+      "bottom": 0,
+      "height": "100%"
+    }
+  },
+  "formatters": {
+    "number": [
+      {
+        "columnNum": 1,
+        "pattern": "$ #,##0.00"
+      }
+    ]
+  },
+  "displayed": true
+}

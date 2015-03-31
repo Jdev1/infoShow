@@ -1,0 +1,151 @@
+var mInfoWebApp = angular.module('mInfoWebApp', ['ngRoute' ]);
+mInfoWebApp.config(
+		function($routeProvider, $locationProvider) {
+		    $routeProvider.
+			    when('/', {
+			    	templateUrl: 'views/mLogin.html',
+					controller: 'IndexCtrl'
+			    }).
+			    when('/home', {
+			    	templateUrl: 'views/mExhibitDetails.html',
+					controller: 'media_controller'
+			    }).
+			    otherwise({
+				redirectTo: '/views/mLogin.html'
+			    });
+		}
+	);
+
+mInfoWebApp.controller('FormCtrl', function ($scope,$http) {
+    	$scope.errors = [];
+        $scope.msgs = [];
+ 		   $scope.showModal = false;
+    $scope.toggleModal = function(){
+        $scope.showModal = !$scope.showModal;
+    };
+        $scope.SignUp = function() {
+            $scope.errors.splice(0, $scope.errors.length); 
+            $scope.msgs.splice(0, $scope.msgs.length);
+ 
+            $http.post('submit.php', {'uname': $scope.LastName, 'pswd': $scope.userpassword, 'email': $scope.useremail}
+                ).success(function(data, status, headers, config) {
+                    if (data.msg != '')
+                    {
+                        $scope.msgs.push(data.msg);
+                    }
+                    else
+                    {
+                        $scope.errors.push(data.error);
+                    }
+                    }).error(function(data, status) { 
+                        $scope.errors.push(status);
+                  });
+                    $scope.toggleModal();
+            }
+  });
+
+mInfoWebApp.controller('FormCtrlExhibit', function ($scope,$http) {
+      $scope.errors = [];
+        $scope.msgs = [];
+       $scope.showModal = false;
+    $scope.toggleModal = function(){
+        $scope.showModal = !$scope.showModal;
+    };
+        $scope.SignUp = function() {
+            $scope.errors.splice(0, $scope.errors.length); 
+            $scope.msgs.splice(0, $scope.msgs.length);
+ 
+            $http.post('submitExhibit.php', {'title': $scope.titles, 'altTitle': $scope.altTitle, 'artist': $scope.artist, 'date':$scope.date, 'tag':$scope.tag}
+                ).success(function(data, status, headers, config) {
+                    if (data.msg != '')
+                    {
+                        $scope.msgs.push(data.msg);
+                    }
+                    else
+                    {
+                        $scope.errors.push(data.error);
+                    }
+                    }).error(function(data, status) { 
+                        $scope.errors.push(status);
+                    });
+                    $scope.toggleModal();
+            }
+  });
+
+mInfoWebApp.controller('modalCtrl', function ($scope,$modalInstance) {
+    $scope.showModal = false;
+    $scope.toggleModal = function(){
+        $scope.showModal = !$scope.showModal;
+    };
+  });
+
+mInfoWebApp.controller('IndexCtrl', function ($scope,$modalInstance) {
+   
+  });
+
+mInfoWebApp.directive('modal', function () {
+    return {
+      template: '<div class="modal fade">' + 
+          '<div class="modal-dialog">' + 
+            '<div class="modal-content">' + 
+              '<div class="modal-header">' + 
+                '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' + 
+                '<h4 class="modal-title">{{ title }}</h4>' + 
+              '</div>' + 
+              '<div class="modal-body" ng-transclude></div>' + 
+            '</div>' + 
+          '</div>' + 
+        '</div>',
+      restrict: 'E',
+      transclude: true,
+      replace:true,
+      scope:true,
+      link: function postLink(scope, element, attrs) {
+        scope.title = attrs.title;
+
+        scope.$watch(attrs.visible, function(value){
+          if(value == true)
+            $(element).modal('show');
+          else
+            $(element).modal('hide');
+        });
+
+        $(element).on('shown.bs.modal', function(){
+          scope.$apply(function(){
+            scope.$parent[attrs.visible] = true;
+          });
+        });
+
+        $(element).on('hidden.bs.modal', function(){
+          scope.$apply(function(){
+            scope.$parent[attrs.visible] = false;
+          });
+        });
+      }
+    };
+  });
+
+mInfoWebApp.controller('media_controller', function($scope, $http) {
+  
+  var site = "http://localhost:8080";
+  var page = "/project/asset.php"
+  $http.get(site + page).success(function(response){$scope.asset = response;console.log($scope.asset);});
+
+  
+});
+
+mInfoWebApp.directive('toggle', function(){
+  return {
+    restrict: 'A',
+    link: function(scope, element, attrs){
+      if (attrs.toggle=="tooltip"){
+        $(element).tooltip();
+      }
+      if (attrs.toggle=="popover"){
+        $(element).popover();
+      }
+    }
+  };
+})
+
+

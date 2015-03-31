@@ -1,0 +1,58 @@
+<html>
+	<DIv class="container">
+		<div class="class=col-md-6 " ng-controller="GaugeChartCtrl">
+			<h2>Todays Activity</h2>
+			<div google-chart chart="chartObject" style="padding:0;width:80%"></div>
+		</div>
+		<div ng-controller="d_exhibit_controller" > 
+
+			<div class="panel panel-primary"> 
+              <div class="panel-heading">
+                <div class="btn-group pull-right">
+                      <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+                </div>
+                  <h3 class="panel-title" data-toggle="collapse" data-target="#demo">All Interactions</h3>
+                <div class="clearfix"></div>    
+              </div>      
+              <div id="demo" class="collapse in">
+                <div class="panel-body">
+                	<div class="row">
+                		<div google-chart chart="chart4" ></div>
+				       <div class="col-md-6" style="height:400px; overflow:auto;">
+				         <h2>Interaction List</h2> 
+							<table class="table table-striped table-bordered table-hover table-condensed">
+							  <thead>
+							    <tr>
+							      <th>Exhibit</th>
+							      <th>Visitor</th>
+							      <th>Artist</th>
+							      <th>Rating</th>
+							      <th>Date</th>
+							    </tr>
+							  </thead>
+							  <tbody style="overoverflow-y: scroll;">
+							    <tr ng-repeat="x in message | orderBy:'-Inter_Time'">
+								    <td><span data-toggle="popover" data-content="{{x.Exhibit_Title}}" data-trigger="hover">{{ x.Exhibit_ID }}</td>
+								    <td >{{ x.User_ID }}</td>
+								    <td><span data-toggle="popover" data-content="{{x.Artist_FName}} {{x.Artist_LName}}" data-trigger="hover">{{ x.Artist_ID }}</span></td>
+								    <td>{{ x.rating }}</td>
+								    <td>{{ x.Inter_Time }}</td>
+								    
+							      
+							  </tbody>
+							</table>
+							
+				       </div>
+				       <div class="col-md-6">
+				       	<div google-chart chart="chart3" ></div>
+				       	
+				       </div>
+
+				    </div>
+                </div>
+                <div google-chart chart="chart5" ></div>
+              </div>
+            </div>	
+		</div>
+	</DIV>
+</html>

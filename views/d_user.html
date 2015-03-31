@@ -1,0 +1,45 @@
+
+<h2></h2>
+
+<div ng-controller="d_user_controller"> 
+  <body>
+    <div class="container">
+       <div class="row">
+          <div class="col-md-4 ">
+            <div class="panel panel-primary">
+             <div class="panel-heading">
+                <h3 class="panel-title">Daily</h3>
+             </div>
+             <div class="panel-body">
+              <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+             </div>
+          </div>
+          </div>
+          <div class="col-md-4">
+            <div class="panel panel-primary"> 
+              <div class="panel-heading">
+                <div class="btn-group pull-right">
+                      <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+                </div>
+                  <h3 class="panel-title" data-toggle="collapse" data-target="#demo">Weekly</h3>
+                <div class="clearfix"></div>    
+              </div>      
+              <div id="demo" class="collapse in">
+                <div class="panel-body">
+                  <div google-chart chart="chart" style="{{chart.cssStyle}}"/>
+                </div>
+              </div>
+            </div>      
+          </div>
+<!--           <div class="col-md-3">        
+                 
+          </div> -->
+          <div class="col-md-4">        
+            <div google-chart chart="chart1" style="border:1px inset black;padding:0;width:400px">
+            </div>
+          </div>
+      </div>
+    </div>
+  </body>
+</div>
+
