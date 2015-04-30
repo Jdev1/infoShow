@@ -5,6 +5,13 @@
  */
 
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
+
+
+#heat{
+
+  background: url("../images/floor.jpg") no-repeat;
+  background-position: 200px 115px;
+}
 html {
   font-family: sans-serif;
   -webkit-text-size-adjust: 100%;
@@ -55,7 +62,8 @@ abbr[title] {
 }
 b,
 strong {
-  font-weight: bold;
+  font-weight: 1000;
+  padding-left: 15px;
 }
 dfn {
   font-style: italic;
@@ -63,6 +71,7 @@ dfn {
 h1 {
   margin: .67em 0;
   font-size: 2em;
+
 }
 mark {
   color: #000;
@@ -1176,8 +1185,8 @@ h6,
 .h6 {
   font-family: inherit;
   font-weight: 500;
-  line-height: 1.1;
-  color: inherit;
+  /*line-height: 1.1;*/
+  color: #337ab7;
 }
 h1 small,
 h2 small,
@@ -1213,8 +1222,7 @@ h2,
 .h2,
 h3,
 .h3 {
-  margin-top: 20px;
-  margin-bottom: 10px;
+
 }
 h1 small,
 .h1 small,
@@ -1236,8 +1244,8 @@ h5,
 .h5,
 h6,
 .h6 {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  /*margin-top: 10px;
+  margin-bottom: 10px;*/
 }
 h4 small,
 .h4 small,
@@ -1599,6 +1607,8 @@ pre code {
   padding-right: 15px;
   padding-left: 15px;
 }
+
+
 .col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12 {
   float: left;
 }
@@ -5312,7 +5322,8 @@ a.list-group-item-danger.active:focus {
   margin-top: 0;
   margin-bottom: 0;
   font-size: 16px;
-  color: inherit;
+  font-weight: 150;
+  color: #337ab7;
 }
 .panel-title > a,
 .panel-title > small,

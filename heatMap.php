@@ -1,5 +1,4 @@
 
-
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -37,25 +36,22 @@ $database->query('SELECT interaction.Exhibit_ID, Exhibit_Title,
 
 $rows = $database->resultSet();
 
-
 //ARRAY TO HOLD DATA
+// Hard coded co-ordinated to represent static locations on floor diagram
+$location =Array([2,3],[2,6],[6,3],[6,6],[7.5,1.5],[7.5,9],[12,1.5],[12,9],[17,3],[14,3],[14,6.3],[17,6.3]);
+
 
 for ($i=0; $i < 12; $i++) { 
 
   $data[$i][0]=$rows[$i]["Exhibit_Title"];
-  $data[$i][1]=intval($rows[$i]["Exhibit_ID"]);
-  $data[$i][2]=intval($rows[$i]["popular"]);
+  $data[$i][1]=($location[$i][0]*10);
+  $data[$i][2]=($location[$i][1]*10);
+  $data[$i][3] =  intval($rows[$i]["popular"]);
+  $data[$i][4] =  intval($rows[$i]["popular"]);
+  /*$data[$i][1]=intval($rows[$i]["Exhibit_ID"]);
+  $data[$i][2]=intval($rows[$i]["popular"]);*/
   //$data[$i][3]=5;
 }
-
-for ($i=1; $i <13 ; $i++) { 
-  $database->query('SELECT avg(rating) as avgRating FROM interaction WHERE Exhibit_ID ='.$i.'');
-  $result = $database->single();
-  $data[$i-1][3] =  intval($result['avgRating']);
-  $data[$i-1][4] =  intval($result['avgRating']);
-
-}
-
 
 
 $chartData = array(
@@ -66,36 +62,43 @@ $chartData = array(
   "options"=> [
     /*"title"=> "Interaction Breakdown",*/
     "displayExactValues"=> true,
+    "backgroundColor"=>"none",
     /*"width"=> 1000,*/
-    "height"=> 400,
+    "height"=> 600,
     "is3D"=> true,
     "colorAxis" => [
-        "colors"=>["white","blue","darkBlue"]
+        "colors"=>["Blue","green","yellow","red"],
+        /*"legend"=>["position"=>"none"]*/
     ],
     "hAxis" => [
-        "title"=>"Exhibit",
+        /*"title"=>"Exhibit",*/
         "minValue"=>0,
-        "maxValue"=>16,
-        "gridlines"=>["color"=>"white"],
+        "maxValue"=>130,
+        "textPosition"=>"none",
+        "baselineColor"=>"none",
+        "gridlines"=>["color"=>"none"]
     ],
-    /*"sizeAxis" => [
+    "sizeAxis" => [
         "title"=>"Exhibit",
-        "minValue"=>0,
-        "maxSize"=>20,
-    ],*/
+        "minSize"=>10,
+        "maxSize"=>40,
+    ],
     "vAxis" => [
-        "title"=>"Visits",
+        /*"title"=>"Visits",*/
         "minValue"=>0,
-        "maxValue"=>20,
+        "maxValue"=>100,
+        "gridlines"=>["color"=>"none"],
+        "baselineColor"=>"none",
+        "textPosition"=>"none"
     ],
     "bubble" => [
         "textStyle"=>["fontSize"=>15]
     ],
-    "animation"=>[
+    /*"animation"=>[
         "startup"=>true,
         "duration"=> 3000,
         "easing"=> 'out'
-      ],
+      ],*/
 /*    "chartArea"=> [
       "left"=> 10,
       "top"=> 10,
@@ -116,16 +119,14 @@ $chartData = array(
 	;
 $chartData['data'][0]=[
       "ExhibitName",
-      "Exhibit_ID",
-      "Visits",
       "",
-      "Average Rating"
+      "",
+      "",
+      "Visits"
     ];
 for ($i=1; $i < 13; $i++) { 
   $chartData['data'][$i]=$data[$i-1];
 }
-/*$chartData['data'][1]=["balls",1,2,"balls",4];
-$chartData['data'][2]=["bells",5,6,"balls",15];*/
 
 
 echo(json_encode($chartData));

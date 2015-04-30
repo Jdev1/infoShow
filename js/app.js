@@ -1,4 +1,6 @@
+
 var infoWebApp = angular.module('infoWebApp', [ 'googlechart','ngRoute' ]);
+//Directive to handle client side routing
 infoWebApp.config(
 		function($routeProvider, $locationProvider) {
 		    $routeProvider.
@@ -31,7 +33,7 @@ infoWebApp.config(
 			    });
 		}
 	);
-
+// Controller for modal for input
 infoWebApp.controller('FormCtrl', function ($scope,$http) {
     	$scope.errors = [];
         $scope.msgs = [];
@@ -137,10 +139,8 @@ infoWebApp.directive('modal', function () {
     };
   });
 
-infoWebApp.controller('IndexCtrl', function($scope) {
-    
-    $scope.message = 'This is john';
-     
+infoWebApp.controller('IndexCtrl', function($scope) {  
+    $scope.message = 'This is john';    
 });
 
 infoWebApp.controller('a_exhibit_controller', function($scope, $http) {
@@ -148,8 +148,7 @@ infoWebApp.controller('a_exhibit_controller', function($scope, $http) {
 	var site = "http://localhost:8080";
 	var page = "/project/dummyData/exhibits.txt"
 	 $http.get(site + page).success(function(response){$scope.exhibits = response;});
-	
-     
+	    
 });
 
 infoWebApp.controller('a_user_controller', function($scope, $http) {
@@ -169,22 +168,29 @@ infoWebApp.controller('a_exhibit_controller', function($scope, $http) {
 infoWebApp.controller('d_exhibit_controller', function($scope, $http) {
   var site = "http://localhost:8080";
   var page = "/project/interactions.php"
-   $http.get(site + page ).success(function(response){$scope.message = response;console.log($scope.message);});
+   $http.get(site + page ).success(function(response){$scope.message = response;});
 
-  var page = "/project/dummyData/graphs2.txt"
-  $http.get(site + page).success(function(response){
-    $scope.chart1 = response;
-
-    //console.log($scope.chart1['data'][1]);
-
-  });
 
  var page = "/project/chart.php"
- $http.get(site + page).success(function(response){$scope.chart3 = response;});
+ $http.get(site + page).success(function(response){$scope.chart3 = response;console.log(JSON.stringify(response,true,2))});
+
   var page = "/project/chart2.php"
  $http.get(site + page).success(function(response){$scope.chart4 = response;});
+
    var page = "/project/dateChart.php"
- $http.get(site + page).success(function(response){$scope.chart5 = response;});
+ $http.get(site + page).success(function(response){
+  var temp = response;
+  var max = temp.data.length;
+  //Small hack to convert PHP-JSON date to JS date
+  for (var i = 0 ; i <max; i++) {
+    temp.data[i][0]=(new Date(temp.data[i][0]) );
+  };
+  console.log(temp);
+  $scope.chart5 = temp;
+
+  var page = "/project/heatMap.php"
+  $http.get(site + page).success(function(response){$scope.heatMap= response;});
+});
          
 });
 
@@ -208,6 +214,33 @@ infoWebApp.controller("GaugeChartCtrl", function ($scope) {
     ];
 });
 
+infoWebApp.controller('d_user_controller', function($scope, $http) {
+  
+  var site = "http://localhost:8080";
+  var page = "/project/dummyData/graphs.txt"
+  $http.get(site + page).success(function(response){$scope.chart = response;});
+  //$scope.chart1;
+
+  var page = "/project/dummyData/graphs2.txt"
+  $http.get(site + page).success(function(response){$scope.chart1 = response;});
+
+});
+
+infoWebApp.controller('stats', function($scope, $http,$interval) {
+  
+  var site = "http://localhost:8080";
+  var page = "/project/stats.php";
+  $http.get(site + page).success(function(response){$scope.statistics = response;})
+  $interval(call, 5000);
+
+  function call() {
+    
+    $http.get(site + page).success(function(response){$scope.statistics = response;})
+  }
+
+
+});
+
 infoWebApp.directive('toggle', function(){
   return {
     restrict: 'A',
@@ -222,14 +255,26 @@ infoWebApp.directive('toggle', function(){
   };
 })
 
-infoWebApp.controller('d_user_controller', function($scope, $http) {
-	
-  var site = "http://localhost:8080";
-	var page = "/project/dummyData/graphs.txt"
-	$http.get(site + page).success(function(response){$scope.chart = response;});
-	//$scope.chart1;
+//The following clock directive is adapted from
+//a tutorial found @
+//http://jsdo.it/can.i.do.web/zHbM
+infoWebApp.directive('clock', function($timeout, dateFilter){
+    return function(scope, element, attrs){
+       var timeId; 
+      
+      function updateLater() {
 
-	var page = "/project/dummyData/graphs2.txt"
-	$http.get(site + page).success(function(response){$scope.chart1 = response;});
+        timeoutId = $timeout(function() {
+          element.text(dateFilter(new Date(), ' HH:mm:ss EEEE MMMM dd yyyy'));
+          updateLater(); 
+        }, 1000);
+      }
 
-});
+      element.bind('$destroy', function() {
+        $timeout.cancel(timeId);
+      });
+ 
+      updateLater(); 
+    }
+})
+

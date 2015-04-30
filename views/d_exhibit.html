@@ -1,58 +1,137 @@
+<!-- /*********************************
+* InfoShow
+* Project 2015
+* John Devlin  L00091381
+*********************************/ -->
+
+<!-- /*********************************
+* Mark-up for the Exhibit Dat page
+* 
+* 
+*********************************/ -->
+
 <html>
-	<DIv class="container">
-		<div class="class=col-md-6 " ng-controller="GaugeChartCtrl">
-			<h2>Todays Activity</h2>
-			<div google-chart chart="chartObject" style="padding:0;width:80%"></div>
-		</div>
-		<div ng-controller="d_exhibit_controller" > 
-
-			<div class="panel panel-primary"> 
-              <div class="panel-heading">
-                <div class="btn-group pull-right">
-                      <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
-                </div>
-                  <h3 class="panel-title" data-toggle="collapse" data-target="#demo">All Interactions</h3>
-                <div class="clearfix"></div>    
-              </div>      
-              <div id="demo" class="collapse in">
-                <div class="panel-body">
-                	<div class="row">
-                		<div google-chart chart="chart4" ></div>
-				       <div class="col-md-6" style="height:400px; overflow:auto;">
-				         <h2>Interaction List</h2> 
-							<table class="table table-striped table-bordered table-hover table-condensed">
-							  <thead>
-							    <tr>
-							      <th>Exhibit</th>
-							      <th>Visitor</th>
-							      <th>Artist</th>
-							      <th>Rating</th>
-							      <th>Date</th>
-							    </tr>
-							  </thead>
-							  <tbody style="overoverflow-y: scroll;">
-							    <tr ng-repeat="x in message | orderBy:'-Inter_Time'">
-								    <td><span data-toggle="popover" data-content="{{x.Exhibit_Title}}" data-trigger="hover">{{ x.Exhibit_ID }}</td>
-								    <td >{{ x.User_ID }}</td>
-								    <td><span data-toggle="popover" data-content="{{x.Artist_FName}} {{x.Artist_LName}}" data-trigger="hover">{{ x.Artist_ID }}</span></td>
-								    <td>{{ x.rating }}</td>
-								    <td>{{ x.Inter_Time }}</td>
-								    
-							      
-							  </tbody>
-							</table>
-							
-				       </div>
-				       <div class="col-md-6">
-				       	<div google-chart chart="chart3" ></div>
-				       	
-				       </div>
-
-				    </div>
-                </div>
-                <div google-chart chart="chart5" ></div>
-              </div>
-            </div>	
+	<DIV class="container">	
+		<div ng-controller="d_exhibit_controller"> 
+			<h2>Overview</h2></a>
+			<H3><div x-clock></div></H3>
+			<DIV class="row" ng-controller="stats">
+				<div class="col-xs-6 col-md-3 ">
+					<div class="panel panel-default">
+					  <div class="panel-body">
+				
+					  	<h1>{{statistics.daily}}<div class="btn-group pull-right">
+	                      <span class="glyphicon glyphicon-tasks"></span>
+		                </div></h1>
+					    <h3>Today</h3>
+					  </div>
+					</div>
+				</div>
+				<div class="col-xs-6 col-md-3">
+					<div class="panel panel-default">
+					  <div class="panel-body">
+					  	<h1>{{statistics.weekly}}<div class="btn-toolbar pull-right">
+	                      <span class="glyphicon glyphicon-tasks"></span>
+		                </div></h1>
+					    <h3>This Week</h3>
+					  </div>
+					</div>
+				</div>
+				<div class="col-xs-6 col-md-3">
+					<div class="panel panel-default">
+					  <div class="panel-body">
+					  	<h1>{{statistics.monthly}}<div class="btn-group pull-right">
+	                      <span class="glyphicon glyphicon-tasks"></span>
+		                </div></h1>
+					    <h3>This Month</h3>
+					  </div>
+					</div>
+				</div>
+				<div class="col-xs-6 col-md-3">
+					<div class="panel panel-default">
+					  <div class="panel-body">
+					  	<h1>{{statistics.yearly}}<div class="btn-group pull-right">
+	                      <span class="glyphicon glyphicon-tasks"></span>
+		                </div></h1>
+					    <h3>This  year</h3>
+					  </div>
+					</div>
+				</div>	
+			</DIV>
+			<DIV class="row">
+				<div class="col-md-6">
+					<div class="panel panel-default">
+					  <div class="panel-body">
+					  	<h3 class="panel-title">Top 5 Exhibits</h3>
+					  		<div google-chart chart="chart3" ></div>
+					  </div>
+					</div>
+				</div>
+				<div class="col-md-6" ng-controller="stats">
+					<div class="panel panel-default">
+					  <div class="panel-body">
+							<h3>On average...</h3>
+							<ul class="list-group">
+								<li class="list-group-item panel-title"><strong>{{statistics.day}} </strong>
+									<div class="btn-group pull-right">
+				                      <span >Interactions<em> per day</em></span>
+					                </div>
+					            </li>
+								<li class="list-group-item panel-title"><strong>{{statistics.month}}</strong>
+									<div class="btn-group pull-right">
+				                      <span> Interactions <em> per month</em></span>
+					                </div>
+					        	</li>
+							  <li class="list-group-item panel-title"><strong>{{statistics.year}}</strong>
+									<div class="btn-group pull-right">
+				                      <span > Interactions <em> per year</em></span>
+					                </div>
+					        	</li>
+							  <li class="list-group-item panel-title"><strong>{{statistics.totalInter / statistics.uniqueUser | number:3}}</strong>
+									<div class="btn-group pull-right">
+				                      <span >Interactions <em> per Visitor</em></span>
+					                </div>
+					        	</li>
+							  <li class="list-group-item panel-title"><strong>{{statistics.avgRat}}</strong>
+									<div class="btn-group pull-right">
+				                      <span >Rating <em> per exhibit</em></span>
+					                </div>
+					        	</li>
+							</ul>  	
+					  </div>
+					</div>
+				</div>
+			</DIV>
+			<DIV class="row">
+				<div class="col-md-12">
+					<div class="panel panel-default">
+					  <div class="panel-body">
+					  	<H3 class="panel-title">Interaction by Exhibit</H3>
+					  	<div google-chart chart="chart4" ></div>
+					  </div>
+					</div>
+				</div>
+			</DIV>
+			<DIV class="row">
+				<div class="col-md-12">
+					<div class="panel panel-default">
+					  <div class="panel-body">
+					  	<H3 class="panel-title">Daily Interactions</H3>
+					  	<div class="panel-body" google-chart chart="chart5" ></div>
+					  </div>
+					</div>
+				</div>
+			</DIV>
+			<DIV class="row">
+				<div class="col-md-12">
+					<div class="panel panel-default">
+					  <div class="panel-body">
+					  	<H3 class="panel-title">Location map</H3>
+					  	<div class="panel-body" google-chart chart="heatMap" id="heat"></div>
+					  </div>
+					</div>
+				</div>
+			</DIV>
 		</div>
 	</DIV>
 </html>

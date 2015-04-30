@@ -1,3 +1,7 @@
+
+
+//The $route provider directive handles the client side navigation
+// each "view" is mapped to the n-view div on the index page
 var mInfoWebApp = angular.module('mInfoWebApp', ['ngRoute' ]);
 mInfoWebApp.config(
 		function($routeProvider, $locationProvider) {
@@ -16,6 +20,8 @@ mInfoWebApp.config(
 		}
 	);
 
+// Simple controller to display modal form and
+// post to php page
 mInfoWebApp.controller('FormCtrl', function ($scope,$http) {
     	$scope.errors = [];
         $scope.msgs = [];
@@ -40,10 +46,11 @@ mInfoWebApp.controller('FormCtrl', function ($scope,$http) {
                     }).error(function(data, status) { 
                         $scope.errors.push(status);
                   });
-                    $scope.toggleModal();
+                  $scope.toggleModal();
             }
   });
-
+//As above
+// 
 mInfoWebApp.controller('FormCtrlExhibit', function ($scope,$http) {
       $scope.errors = [];
         $scope.msgs = [];
@@ -71,7 +78,8 @@ mInfoWebApp.controller('FormCtrlExhibit', function ($scope,$http) {
                     $scope.toggleModal();
             }
   });
-
+//  Controller to toggle the display of the modal forms
+// 
 mInfoWebApp.controller('modalCtrl', function ($scope,$modalInstance) {
     $scope.showModal = false;
     $scope.toggleModal = function(){
@@ -79,10 +87,8 @@ mInfoWebApp.controller('modalCtrl', function ($scope,$modalInstance) {
     };
   });
 
-mInfoWebApp.controller('IndexCtrl', function ($scope,$modalInstance) {
-   
-  });
-
+//Associated Directive
+// 
 mInfoWebApp.directive('modal', function () {
     return {
       template: '<div class="modal fade">' + 
@@ -125,6 +131,8 @@ mInfoWebApp.directive('modal', function () {
     };
   });
 
+//Controller for get Call.  gets Details from Php page and assigns them to the scope
+// 
 mInfoWebApp.controller('media_controller', function($scope, $http) {
   
   var site = "http://localhost:8080";
@@ -134,6 +142,67 @@ mInfoWebApp.controller('media_controller', function($scope, $http) {
   
 });
 
+mInfoWebApp.controller('Rating_Ctrl', ['$scope','$http', function($scope, $http) {
+    $scope.rating = 0;
+    $scope.ratings = [{
+        current: 1,
+        max: 10
+    }];
+
+    var save =  function() {
+      $http.post('submitExhibit.php', {'title': $scope.titles, 'altTitle': $scope.altTitle, 'artist': $scope.artist, 'date':$scope.date, 'tag':$scope.tag}
+          ).success(function(data, status, headers, config) {
+              
+              }).error(function(data, status) { 
+                  console.log(status);
+              });
+              
+      }
+    $scope.getSelectedRating = function (rating) { 
+      save(rating);
+    } 
+}]);
+
+mInfoWebApp.directive('starRating', function () {
+    return {
+        restrict: 'A',
+        template: '<ul class="rating">' +
+            '<li ng-repeat="star in stars" ng-class="star" ng-click="toggle($index)">' +
+            '\u2605' +
+            '</li>' +
+            '</ul>',
+        scope: {
+            ratingValue: '=',
+            max: '=',
+            onRatingSelected: '&'
+        },
+        link: function (scope, elem, attrs) {
+
+            var updateStars = function () {
+                scope.stars = [];
+                for (var i = 0; i < scope.max; i++) {
+                    scope.stars.push({
+                        filled: i < scope.ratingValue
+                    });
+                }
+            };
+            scope.toggle = function (index) {
+                scope.ratingValue = index + 1;
+                scope.onRatingSelected({
+                    rating: index + 1
+                });
+            };
+
+            scope.$watch('ratingValue', function (oldVal, newVal) {
+                if (newVal) {
+                    updateStars();
+                }
+            });
+        }
+    }
+});
+//Directive for tooltips
+// 
 mInfoWebApp.directive('toggle', function(){
   return {
     restrict: 'A',

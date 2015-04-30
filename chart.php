@@ -1,3 +1,6 @@
+
+
+
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -10,17 +13,11 @@ define("DB_NAME", "infoshow");
 
 $database = new Database();
 
-//Get Number of Exhibits
-/*$database->query('SELECT * from exhibit');
-$rows = $database->resultSet();
-$exhibitCount = $database->rowCount();*/
-
-
+//Get total number of exhibits
 $database->query("SELECT Exhibit_Title, Exhibit_ID FROM exhibit");
 $exhibits = $database->resultSet();
 
-
-
+//5 most popular exhibits
 $database->query('SELECT interaction.Exhibit_ID, Exhibit_Title,
    	COUNT(interaction.Exhibit_ID) AS popular 
     from interaction, exhibit
@@ -28,7 +25,6 @@ $database->query('SELECT interaction.Exhibit_ID, Exhibit_Title,
     GROUP BY interaction.Exhibit_ID
     ORDER BY popular  DESC
     LIMIT    5; ');
-
 $rows = $database->resultSet();
 
 $first =$rows[0]["Exhibit_Title"];
@@ -42,12 +38,11 @@ $fourthCount = intval($rows[3]["popular"]);
 $fifth = $rows[4]["Exhibit_Title"];
 $fifthCount = intval($rows[4]["popular"]);
 
-//echo $database->rowCount();
 if(is_array($rows)){
  $out = json_encode($rows);
 }
-/*if(isset($_GET["param"]))
-	echo $out;*/
+
+//Prep data component of chart
 
 $chartData = array(
   "type" => "PieChart",
@@ -78,15 +73,23 @@ $chartData = array(
     ]
   ],
   "options"=> [
-    "title"=> "Top 5 Exhibits by interaction",
+    /*"title"=> "Top 5 Exhibits by interaction",*/
     "displayExactValues"=> true,
     /*"width"=> 400,*/
-    "height"=> 260,
-    "is3D"=> false,
+    "height"=> 300,
+    "is3D"=> true,
     "animation"=>[
         "startup"=>true,
         "duration"=> 1000,
         "easing"=> 'out'
+      ],
+      "tooltip"=> [
+        "showColorCode"=> true
+  
+      ],
+      "titleTextStyle"=> [
+        "fontSize"=> 20,
+        "color"=> 'grey'
       ],
 /*    "chartArea"=> [
       "left"=> 10,
@@ -104,11 +107,7 @@ $chartData = array(
     ]
   ],
   "displayed"=> true
-)
-	;
-
-
-$file = file_get_contents('./dummyData/graphs2.txt', FILE_USE_INCLUDE_PATH);
-$graphData = json_decode($file, true);
+);
+// Return in JSON format for AngularJS to bind
 echo(json_encode($chartData));
 ?>

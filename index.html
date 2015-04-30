@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>jQuery Bar Rating Plugin Demo</title>
+    <meta name="viewport" content="width=device-width">
+    <link href="css/examples.css" rel="stylesheet" type="text/css"/>
+    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet"
+          type="text/css"/>
+    <script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script src="js/jquery.barrating.js"></script>
+    <script src="js/rating.js"></script>
+   <!--  <script type="text/javascript">
+        $(function() {
+            function ratingEnable() {
+                $('#example-a').barrating();
+
+                $('#example-b').barrating('show', {
+                    readonly:true
+                });
+
+                $('#example-b').barrating('set', 'Mediocre');
+
+                $('#example-c, #example-d').barrating('show', {
+                    showValues:true,
+                    showSelectedRating:false
+                });
+
+                $('#example-e').barrating('show', {
+                    initialRating:'A',
+                    showValues:true,
+                    showSelectedRating:false,
+                    onSelect:function(value, text) {
+                        alert('Selected rating: ' + value);
+                    }
+                });
+
+                $('#example-f').barrating({ showSelectedRating:false });
+
+                $('#example-g').barrating('show', {
+                    showSelectedRating:true,
+                    reverse:true
+                });
+
+                $('#example-h').barrating('show', {
+                    reverse:true
+                });
+            }
+
+            function ratingDisable() {
+                $('select').barrating('destroy');
+            }
+
+            $('.rating-enable').click(function(event) {
+                event.preventDefault();
+
+                ratingEnable();
+
+                $(this).addClass('deactivated');
+                $('.rating-disable').removeClass('deactivated');
+            });
+
+            $('.rating-disable').click(function(event) {
+                event.preventDefault();
+
+                ratingDisable();
+
+                $(this).addClass('deactivated');
+                $('.rating-enable').removeClass('deactivated');
+            });
+
+            ratingEnable();
+        });
+    </script> -->
+</head>
+
+<body>
+
+ <div id="wrapper">
+    <div id="content"> 
+        <div class="input select rating-f">
+            <label for="example-f">Star rating... why not:</label>
+            <select id="example-f" name="rating">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+	      <option value="6">1</option>
+                <option value="7">2</option>
+                <option value="8">3</option>
+                <option value="9">4</option>
+                <option value="10">5</option>
+            </select>
+        </div>
+
+
+
+</html>

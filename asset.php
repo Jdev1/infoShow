@@ -1,3 +1,5 @@
+
+
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
@@ -10,7 +12,7 @@ define("DB_NAME", "infoshow");
 
 $database = new Database();
 $random =5;
-$database->query("SELECT Exhibit_Title, Exhibit_AltTitle, Exhibit_Date, Artist_FName, Artist_LName, exhibit.Exhibit_ID  FROM exhibit, asset, artist WHERE exhibit.Exhibit_ID = 8 AND exhibit.Exhibit_Artist = artist.Artist_ID");
+$database->query("SELECT Exhibit_Title, Exhibit_AltTitle, Exhibit_Date, Artist_FName, Artist_LName, exhibit.Exhibit_ID  FROM exhibit, asset, artist WHERE exhibit.Exhibit_ID = 1 AND exhibit.Exhibit_Artist = artist.Artist_ID");
 $exhibits = $database->resultSet();
 
 //Prep Data
