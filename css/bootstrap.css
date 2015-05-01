@@ -1406,6 +1406,24 @@ a.bg-danger:hover {
   margin: 0.1em;
   border-bottom: 1px solid #eee;
 }
+.mPage-middle {
+  padding-bottom: 9px;
+  margin: 0.1em;
+  border-top: 1px solid #eee;
+  text-align: center;
+
+}
+.mPage-pic {
+ margin-left: 15px;
+  text-align: center;
+
+}
+.mPage-headerLog {
+  padding-bottom: 9px;
+  margin: 0.1em;
+  border-bottom: 2px solid #eee;
+  text-align: center;
+}
 ul,
 ol {
   margin-top: 0;

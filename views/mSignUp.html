@@ -85,23 +85,42 @@
     });
   }
 </script>
-<body>
-    <div class="container">
-        <div class="row">
-          <div  class="col-sm-4"></div>
-            <div  class="col-sm-4">
-                <h1 class="mPage-headerLog">Welcome to InfoShow</h1>
-                <h3 class="mPage-headerLog">Scan a tag to begin</h3>
-                <img class="mPage-pic" src="images/logo-1.jpg">
-                <h3 class="mPage-middle">Or click below to sign in with Facebook</h3>
-                <h3 class="mPage-headerLog"><fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-                </fb:login-button></h3>
 
-            </div>
-            <div  class="col-sm-4"></div>
+ <form class="form-signin">
+     <div class="social-box">
+          <div class="row">
+            <div class="col-md-4"></div>
+           <div class="col-md-4">
+              <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+              </fb:login-button>
+          </div>
+          </div>
+          <div class="row">
         </div>
       </div>
-    
+      <div class="main">    
+      <input type="text" class="form-control" placeholder="Email" autofocus>
+      <input type="password" class="form-control" placeholder="Password">
+                 <button type="submit" class="btn btn-large btn-danger">Login</button>
+      <span class="clearfix"></span>    
+      </div>
+      <div class="login-footer">
+      <div class="row">
+         <div class="col-xs-6 col-md-6">
+             <div class="left-section">
+                 <a href="">Forgot your password?</a>
+                 <a href="">Sign up now</a>
+             </div>
+         </div> 
+      </div>
+      <div id="status">
+      </div>
+ </div>
+</form>
+
+
+
+
 </body>
 </html>
 

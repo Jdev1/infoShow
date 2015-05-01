@@ -97,7 +97,7 @@ mInfoWebApp.controller('modalCtrl', function ($scope,$modalInstance) {
 
 mInfoWebApp.run(function($rootScope, $location) {
     $rootScope.location = $location;
-    console.log($rootScope.location);
+
 });
 
 //Associated Directive
