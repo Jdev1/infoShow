@@ -7,7 +7,7 @@ mInfoWebApp.config(
 		function($routeProvider, $locationProvider) {
 		    $routeProvider.
 			    when('/', {
-			    	templateUrl: 'views/mIndex.html',
+			    	templateUrl: 'views/mLogin.html',
 					
 			    }).
 			    when('/home', {
@@ -16,6 +16,10 @@ mInfoWebApp.config(
 			    }).
           when('/login', {
             templateUrl: 'views/mLogin.html',
+          
+          }).
+          when('/logOut', {
+            templateUrl: 'views/mLogOut.html',
           
           }).
 			    otherwise({
@@ -90,6 +94,11 @@ mInfoWebApp.controller('modalCtrl', function ($scope,$modalInstance) {
         $scope.showModal = !$scope.showModal;
     };
   });
+
+mInfoWebApp.run(function($rootScope, $location) {
+    $rootScope.location = $location;
+    console.log($rootScope.location);
+});
 
 //Associated Directive
 // 
@@ -199,8 +208,8 @@ mInfoWebApp.controller('Rating_Ctrl', ['$scope','$http', function($scope, $http)
 
 mInfoWebApp.controller('AnkCtrl', function($scope, $location, $anchorScroll, $routeParams) {
   $scope.scrollTo = function(id) {
-     $location.hash(id);
-     $anchorScroll();
+     
+     $anchorScroll($location.hash(id));
   }
 });
 
