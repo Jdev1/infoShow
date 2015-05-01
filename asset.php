@@ -10,9 +10,13 @@ define("DB_USER", "root");
 define("DB_PASS", "");
 define("DB_NAME", "infoshow");
 
+if (isset($_GET['tag'])){
+	$tag = $_GET['tag'];
+}
+
 $database = new Database();
 $random =5;
-$database->query("SELECT Exhibit_Title, Exhibit_AltTitle, Exhibit_Date, Artist_FName, Artist_LName, exhibit.Exhibit_ID  FROM exhibit, asset, artist WHERE exhibit.Exhibit_ID = 1 AND exhibit.Exhibit_Artist = artist.Artist_ID");
+$database->query("SELECT Exhibit_Title, Exhibit_AltTitle, Exhibit_Date, Artist_FName, Artist_LName, exhibit.Exhibit_ID  FROM exhibit, asset, artist WHERE exhibit.Exhibit_ID = ".$tag." AND exhibit.Exhibit_Artist = artist.Artist_ID");
 $exhibits = $database->resultSet();
 
 //Prep Data
@@ -58,10 +62,27 @@ $exhibits[0]["image"] =$imageURL;
 $exhibits[0]["date"] =$date;
 
 
+
+/*$url = "https://ajax.googleapis.com/ajax/services/search/images?" .
+       "v=1.0&q=barack%20obama&userip=54.229.149.217";
+
+// sendRequest
+// note how referer is set manually
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_REFERER, "172.31.40.70");
+$body = curl_exec($ch);
+curl_close($ch);
+
+$exhibits[0]["test"] =$body;*/
+
 if(is_array($exhibits)){
  $outp = json_encode($exhibits,true);
 }
 
 echo($outp);
+
+
 
 ?>

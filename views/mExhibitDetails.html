@@ -20,7 +20,7 @@
     <div class="container" ng-repeat="x in asset">
         <div class="row">
             <div  class="col-lg-12">
-                <h1 class="page-header">{{x.Exhibit_Title}}<small><em> {{ x.Exhibit_AltTitle}} </em></small>
+                <h1 class="mPage-header">{{x.Exhibit_Title}}<small><em> {{ x.Exhibit_AltTitle}} </em></small>
                     <br>
                     <small>{{x.name}}</small>
                     <br>
@@ -34,29 +34,32 @@
             </div>
 
             <div class="col-md-6">
-                <h3 class="page-header">Exhibit Description</h3>
-                <DIV><p class="text-info">{{x.blurb}}</p></DIV>
+                <h3 id="exDetails" class="mPage-header">Exhibit Description</h3>
+                <DIV ><p class="text-info">{{x.blurb}}</p></DIV>
                 
-                <h3 class="page-header">Artist's Life</h3>
+                <h3 id="artDetails"  class="mPage-header">Artist's Life</h3>
                 <DIV><p>{{x.bio}}</p></DIV>
                 
             </div>
         </div>
         <div class="row">
             <div class="col-md-6">
-                <h3 class="page-header">Feedback</h3>
+                <h3 id="rate" class="mPage-header">Feedback</h3>
                  <div ng-controller="Rating_Ctrl"> 
-                    <span ng-repeat="rating in ratings">{{rating.current}} out of
-                        {{rating.max}}
-                    <div star-rating rating-value="rating.current" max="rating.max" on-rating-selected="getSelectedRating(rating)"></div>
-                    </span>
+                    <div title="Rating Recorded" data-toggle="tooltip" data-content="Thank you" data-trigger="click">
+                        <span ng-repeat="rating in ratings">{{rating.current}} out of
+                            {{rating.max}}
+                        <div star-rating rating-value="rating.current" max="rating.max" on-rating-selected="getSelectedRating(rating)"></div>
+                        </span>
+                    I have a Popover 
+                    </div>
                 </div>   
             </div>
         </div>
         <div class="row">
 
             <div class="col-lg-12">
-                <h3 class="page-header">Other Works
+                <h3 class="mPage-header">Other Works
                 </h3>
             </div>
 

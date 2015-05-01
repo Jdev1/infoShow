@@ -23,11 +23,16 @@
             </button>
             <a class="navbar-brand" href="#home">InfoShow</a>
         </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
+        <div ng-controller="AnkCtrl" class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">               
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                
+                <li><a href="" ng-click="scrollTo('exDetails')"><span class="glyphicon glyphicon glyphicon-education"></span> Exhibit Information</a></li>
+                <li><a href="" ng-click="scrollTo('artDetails')"><span class="glyphicon glyphicon-blackboard"></span> Artist Biography</a></li>
+                <li><a href="" ng-click="scrollTo('rate')"><span class="glyphicon glyphicon glyphicon-comment"></span> Rate Exhibit</a></li>
+                <!-- <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li> -->
+                <li><a href="#login"><span class="glyphicon glyphicon-log-in"></span> Log-out</a></li>
             </ul>
         </div>
     </div>

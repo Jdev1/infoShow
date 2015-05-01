@@ -7,13 +7,17 @@ mInfoWebApp.config(
 		function($routeProvider, $locationProvider) {
 		    $routeProvider.
 			    when('/', {
-			    	templateUrl: 'views/mLogin.html',
-					controller: 'IndexCtrl'
+			    	templateUrl: 'views/mIndex.html',
+					
 			    }).
 			    when('/home', {
 			    	templateUrl: 'views/mExhibitDetails.html',
 					controller: 'media_controller'
 			    }).
+          when('/login', {
+            templateUrl: 'views/mLogin.html',
+          
+          }).
 			    otherwise({
 				redirectTo: '/views/mLogin.html'
 			    });
@@ -135,15 +139,44 @@ mInfoWebApp.directive('modal', function () {
 // 
 mInfoWebApp.controller('media_controller', function($scope, $http) {
   
+  var id;
   var site = "http://localhost:8080";
-  var page = "/project/asset.php"
-  $http.get(site + page).success(function(response){$scope.asset = response;console.log($scope.asset);});
+  var page = "/project/asset.php?tag=6"
+  $http.get( page).success(function(response){
+    $scope.asset = response;
+    
+    id = $scope.asset[0]["Exhibit_ID"];
+  });
 
-  
+  //console.log(id);
+  $scope.rating = 0;
+    $scope.ratings = [{
+        current: 1,
+        max: 10
+    }];
+
+    console.log($scope.ratings.current);
+
+    var save =  function(rating) {
+      $http.post('ratingSave.php', {'tag': id, "rating": rating}
+          ).success(function(data, status, headers, config) {
+              
+              }).error(function(data, status) { 
+                  console.log(status);
+              });
+              
+      }
+    $scope.getSelectedRating = function (rating) { 
+      save(rating);
+      //console.log($scope.ratings.current);
+    }
+
 });
 
+
+
 mInfoWebApp.controller('Rating_Ctrl', ['$scope','$http', function($scope, $http) {
-    $scope.rating = 0;
+    /*$scope.rating = 0;
     $scope.ratings = [{
         current: 1,
         max: 10
@@ -160,8 +193,16 @@ mInfoWebApp.controller('Rating_Ctrl', ['$scope','$http', function($scope, $http)
       }
     $scope.getSelectedRating = function (rating) { 
       save(rating);
-    } 
+      console.log(rating);
+    }*/ 
 }]);
+
+mInfoWebApp.controller('AnkCtrl', function($scope, $location, $anchorScroll, $routeParams) {
+  $scope.scrollTo = function(id) {
+     $location.hash(id);
+     $anchorScroll();
+  }
+});
 
 mInfoWebApp.directive('starRating', function () {
     return {
