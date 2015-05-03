@@ -13,11 +13,34 @@ define("DB_NAME", "infoshow");
 if (isset($_GET['tag'])){
 	$tag = $_GET['tag'];
 }
+else{
+	$tag = mt_rand(1,12);
+}
 
+if (isset($_GET['user'])){
+	$user = $_GET['user'];
+}
+else{
+	$user = mt_rand(1,100);
+}
+if (isset($_GET['rating'])){
+	$rating = $_GET['rating'];
+}
+else{
+	$rating = mt_rand(1,10);
+}
 $database = new Database();
 $random =5;
 $database->query("SELECT Exhibit_Title, Exhibit_AltTitle, Exhibit_Date, Artist_FName, Artist_LName, exhibit.Exhibit_ID  FROM exhibit, asset, artist WHERE exhibit.Exhibit_ID = ".$tag." AND exhibit.Exhibit_Artist = artist.Artist_ID");
 $exhibits = $database->resultSet();
+
+
+$database->query('INSERT INTO interaction (User_ID, Exhibit_ID, rating) VALUES (:U_ID, :E_ID, :rating)');
+$database->bind(':U_ID', $user);
+$database->bind(':E_ID', $tag);
+$database->bind(':rating', $rating);
+$database->execute();
+
 
 //Prep Data
 $date= substr($exhibits[0]["Exhibit_Date"], 0,4); 

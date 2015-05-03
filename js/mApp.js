@@ -5,6 +5,7 @@
 var mInfoWebApp = angular.module('mInfoWebApp', ['ngRoute' ]);
 mInfoWebApp.config(
 		function($routeProvider, $locationProvider) {
+      
 		    $routeProvider.
 			    when('/', {
 			    	templateUrl: 'views/mLogin.html',
@@ -12,8 +13,12 @@ mInfoWebApp.config(
 			    }).
 			    when('/home', {
 			    	templateUrl: 'views/mExhibitDetails.html',
-					controller: 'media_controller'
+					  controller: 'media_controller'
 			    }).
+          /*.when('/home/:param1/:param2', {
+              templateUrl: 'views/mExhibitDetails.html',    
+              controller: 'media_controller'
+          }).*/
           when('/login', {
             templateUrl: 'views/mLogin.html',
           
@@ -146,11 +151,16 @@ mInfoWebApp.directive('modal', function () {
 
 //Controller for get Call.  gets Details from Php page and assigns them to the scope
 // 
-mInfoWebApp.controller('media_controller', function($scope, $http) {
-  
+mInfoWebApp.controller('media_controller', function($scope, $http,$routeParams) {
+  console.log($routeParams);
+  var tag=   "tag="+$routeParams['tag'];
+  var user=  "user="+$routeParams['user'];
+  var device="user="+$routeParams['device'];
+
+
   var id;
   var site = "http://localhost:8080";
-  var page = "/project/asset.php?tag=6"
+  var page = "/project/asset.php?"+tag+"&"+user;
   $http.get( page).success(function(response){
     $scope.asset = response;
     
