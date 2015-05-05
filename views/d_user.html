@@ -1,71 +1,122 @@
 <body>
-  <div ng-controller="d_user_controller"> 
+  <div > 
       <div class="container">
-        <div ng-controller="d_exhibit_controller"> 
+        <div ng-controller="infoStats"> 
             <h2>Visitor Overview</h2></a>
             <H3><div x-clock></div></H3>
             <DIV class="row" ng-controller="stats">
               <div class="col-xs-6 col-md-3 ">
                 <div class="panel panel-default">
                   <div class="panel-body">
-                    <h3>Today</h3>
+                    <h2>Latest User<h1><div class="btn-group pull-right">
+                        <span class="glyphicon glyphicon-user"></span>
+                    </div></h1></h2>
+                    
+                    <div title="User Details" data-toggle="popover" data-content="{{infoStat.User_EMail}} Member Since: {{infoStat.member_since}} Last Active : {{infoStat.last_active}} " data-trigger="hover"><h3>{{infoStat.User_FName}} {{infoStat.User_LName}}</h3></div>
+                    <h3>{{infoStat.Exhibit_Title}}</h3>
+                    <h3>{{infoStat.last_active  | limitTo : -9}}</h3>
+                  </div>
+                </div>
+
+              </div>
+              <div class="col-xs-6 col-md-3">
+                <div class="panel panel-default">
+                  <div class="panel-body">
+                    <h2>Most Active User<h1><div class="btn-group pull-right">
+                        <span class="glyphicon glyphicon-star"></span>
+                    </div></h1></h2>
+                    <h3>{{infoStat.mostFName}} {{infoStat.mostLName}}</h3>
+                    <h3>{{infoStat.count}} visits</h3>
+                    <h3> Since {{infoStat.mostJoin | limitTo : -10}}</h3>
                   </div>
                 </div>
               </div>
               <div class="col-xs-6 col-md-3">
                 <div class="panel panel-default">
                   <div class="panel-body">
-                    <h3>This Week</h3>
+                    <h2>Most Satisfied <h1><div class="btn-group pull-right">
+                        <span class="glyphicon glyphicon-thumbs-up"></span>
+                    </div></h1></h2>
+                    <h3>{{infoStat.HiAvgFName}} {{infoStat.HiAvgtLName}}</h3>
+                    <h3>Avarage rating of {{infoStat.hiAvRating | limitTo : 3}} </h3>
+                    <h3>From {{infoStat.HiInters}} exhibit visits</h3>
                   </div>
+                
                 </div>
               </div>
               <div class="col-xs-6 col-md-3">
                 <div class="panel panel-default">
                   <div class="panel-body">
-                    <h3>This Month</h3>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xs-6 col-md-3">
-                <div class="panel panel-default">
-                  <div class="panel-body">
-                    <h3>This  year</h3>
+                    <h2>Least Satisfied <h1><div class="btn-group pull-right">
+                        <span class="glyphicon glyphicon-thumbs-down"></span>
+                    </div></h1></h2>
+                    <h3>{{infoStat.LoAvgFName}} {{infoStat.LoAvgtLName}}</h3>
+                    <h3>Avarage rating of {{infoStat.loAvRating| limitTo : 3}} </h3>
+                    <h3>From {{infoStat.loInters}} exhibit visits</h3>
                   </div>
                 </div>
               </div>  
             </DIV>
-            <DIV class="row">
-              <div class="col-md-6">
-                <div class="panel panel-default">
-                  <div class="panel-body">
-                  </div>
-                </div>
-              </div>
+            <DIV   class="row">
               <div class="col-md-6" ng-controller="stats">
                 <div class="panel panel-default">
                   <div class="panel-body">
-                    <h3>On average...</h3>
+                    <h3>The average user...</h3>
                     <ul class="list-group">
-                      
+                      <li class="list-group-item panel-title"><strong>54.3%</strong>
+                        <div class="btn-group pull-right">
+                                    <span ><em>Female</em></span>
+                                </div>
+                            </li>
+                      <li class="list-group-item panel-title"><strong>{{infoStat.Average | number:2}} </strong>
+                        <div class="btn-group pull-right">
+                                    <span><em>Years old</em></span>
+                                </div>
+                          </li>
+                      <li class="list-group-item panel-title"><strong>{{infoStat.AVG_Rating | number:2}}</strong>
+                        <div class="btn-group pull-right">
+                                    <span ><em>Average exhibit rating</em></span>
+                                </div>
+                          </li>
+                      <li class="list-group-item panel-title"><strong>{{statistics.totalInter / statistics.uniqueUser | number:2}}</strong>
+                        <div class="btn-group pull-right">
+                                    <span ><em>Interactions per Visit</em></span>
+                                </div>
+                          </li>
+                      <li class="list-group-item panel-title"><strong>{{infoStat.AverageJoin | number:2}}</strong>
+                        <div class="btn-group pull-right">
+                                    <span ><em> years as a user</em></span>
+                                </div>
+                          </li>
                     </ul>   
                   </div>
                 </div>
               </div>
-            </DIV>
-            <DIV class="row">
-              <div class="col-md-12">
+              <div ng-controller="userPie" class="col-md-6">
                 <div class="panel panel-default">
                   <div class="panel-body">
-
+                    <h3 class="panel-title">Top 5 Exhibits</h3>
+                      <div  google-chart chart="userPie" ></div>
                   </div>
                 </div>
               </div>
             </DIV>
             <DIV class="row">
-              <div class="col-md-12">
+              <div ng-controller="userCombo"class="col-md-12">
+                <div  class="panel panel-default">
+                  <div class="panel-body">
+                    <h3 class="panel-title">Unique Users by Date</h3>
+                    <div  google-chart chart="userCombo" ></div>
+                  </div>
+                </div>
+              </div>
+            </DIV>
+            <DIV class="row">
+              <div <div ng-controller="userMonths" class="col-md-12">
                 <div class="panel panel-default">
                   <div class="panel-body">
-
+                    <h3 class="panel-title">Unique Users by Date</h3>
+                    <div  google-chart chart="userMonths" ></div>
                   </div>
                 </div>
               </div>

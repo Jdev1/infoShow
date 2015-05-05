@@ -144,7 +144,6 @@ infoWebApp.controller('IndexCtrl', function($scope) {
 });
 
 infoWebApp.controller('a_exhibit_controller', function($scope, $http) {
-    
 	var site = "http://localhost:8080";
 	var page = "/project/dummyData/exhibits.txt"
 	 $http.get(site + page).success(function(response){$scope.exhibits = response;});
@@ -161,7 +160,25 @@ infoWebApp.controller('a_user_controller', function($scope, $http) {
 infoWebApp.controller('a_exhibit_controller', function($scope, $http) {
   var site = "http://localhost:8080";
   var page = "/project/exhibits.php"
+  
    $http.get(site + page).success(function(response){$scope.exhibits = response;});
+
+   $scope.remove = function(Tag){       
+    var index = -1;   
+    var comArr = eval( $scope.exhibits );
+    for( var i = 0; i < comArr.length; i++ ) {
+      if( comArr[i].Tag === Tag ) {
+        index = i;
+        alert(Tag);
+        $http.delete(page+"?Tag="+Tag);
+        break;
+      }
+    }
+    if( index === -1 ) {
+      alert( "Something gone wrong" );
+    }
+    $scope.exhibits.splice( index, 1 );    
+  };
          
 });
 
@@ -172,7 +189,7 @@ infoWebApp.controller('d_exhibit_controller', function($scope, $http) {
 
 
  var page = "/project/chart.php"
- $http.get(site + page).success(function(response){$scope.chart3 = response;console.log(JSON.stringify(response,true,2))});
+ $http.get(site + page).success(function(response){$scope.chart3 = response;});
 
   var page = "/project/chart2.php"
  $http.get(site + page).success(function(response){$scope.chart4 = response;});
@@ -230,7 +247,7 @@ infoWebApp.controller('stats', function($scope, $http,$interval) {
   
   var site = "http://localhost:8080";
   var page = "/project/stats.php";
-  $http.get(site + page).success(function(response){$scope.statistics = response;})
+  $http.get(site + page).success(function(response){$scope.statistics= response;})
   $interval(call, 5000);
 
   function call() {
@@ -240,6 +257,66 @@ infoWebApp.controller('stats', function($scope, $http,$interval) {
 
 
 });
+
+infoWebApp.controller('infoStats', function($scope, $http,$interval) {
+  
+  var site = "http://localhost:8080";
+  var page = "/project/infoStats.php";
+  $http.get(site + page).success(function(response){$scope.infoStat = response;})
+  $interval(call, 5000);
+
+  function call() {
+    
+    $http.get(site + page).success(function(response){$scope.infoStat = response;})
+  }
+
+
+});
+
+infoWebApp.controller('userPie', function($scope, $http,$interval) {
+  
+  var site = "http://localhost:8080";
+  var page = "/project/userChart.php";
+  $http.get(site + page).success(function(response){$scope.userPie = response;});
+  $interval(call, 5000);
+
+  function call() {
+    
+    $http.get(site + page).success(function(response){$scope.infoStat = response;})
+  }
+
+
+});
+
+infoWebApp.controller('userCombo', function($scope, $http,$interval) {
+  
+  var site = "http://localhost:8080";
+  var page = "/project/dateChartUser.php";
+  $http.get(site + page).success(function(response){$scope.userCombo = response;});
+  $interval(call, 5000);
+
+  function call() {
+    
+    $http.get(site + page).success(function(response){$scope.infoStat = response;})
+  }
+
+
+});
+infoWebApp.controller('userMonths', function($scope, $http,$interval) {
+  console.log("HELLO");
+  var site = "http://localhost:8080";
+  var page = "/project/poularjoinChart.php";
+  $http.get(site + page).success(function(response){$scope.userMonths = response;console.log($scope.userMonths)});
+  /*$interval(call, 5000);
+
+  function call() {
+    
+    $http.get(site + page).success(function(response){$scope.infoStat = response;})
+  }*/
+
+
+});
+
 
 infoWebApp.directive('toggle', function(){
   return {
